@@ -4,8 +4,9 @@ import { useEffect, useRef } from 'react';
 import * as THREE from 'three';
 import { useFrame, useThree } from '@react-three/fiber';
 import { OrbitControls } from '@react-three/drei';
-import type { OrbitControls as OrbitControlsImpl } from 'three-stdlib';
 import { useExplorer } from '@/lib/store';
+
+type OrbitControlsImpl = React.ElementRef<typeof OrbitControls>;
 import type { PartId } from '@/lib/parts';
 
 const HOME_POS = new THREE.Vector3(7.5, 4.2, 8.5);

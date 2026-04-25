@@ -10,11 +10,14 @@ import {
   ToneMapping,
 } from '@react-three/postprocessing';
 import { BlendFunction, ToneMappingMode } from 'postprocessing';
+import * as THREE from 'three';
+import { useMemo } from 'react';
 import { useExplorer } from '@/lib/store';
 
 /** Theme-aware post-processing stack. */
 export function PostFX() {
   const theme = useExplorer((s) => s.theme);
+  const caOffset = useMemo(() => new THREE.Vector2(0.0008, 0.0012), []);
 
   if (theme === 'blueprint') {
     return (
@@ -45,7 +48,7 @@ export function PostFX() {
           mipmapBlur
         />
         <ChromaticAberration
-          offset={[0.0008, 0.0012]}
+          offset={caOffset}
           blendFunction={BlendFunction.NORMAL}
           radialModulation={false}
           modulationOffset={0}
