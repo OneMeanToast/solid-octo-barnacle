@@ -1,39 +1,6 @@
-export type PartId =
-  | 'hull'
-  | 'turret'
-  | 'main-gun'
-  | 'autoloader'
-  | 'era'
-  | 'tracks'
-  | 'engine'
-  | 'driver'
-  | 'cupola'
-  | 'mg'
-  | 'smoke-launchers'
-  | 'optics'
-  | 'ammo'
-  | 'fcs';
+import type { Part } from '@/lib/types';
 
-export type PartSpec = {
-  label: string;
-  value: string;
-};
-
-export type Part = {
-  id: PartId;
-  index: number;
-  name: string;
-  short: string;
-  category: 'Armor' | 'Armament' | 'Mobility' | 'Crew' | 'Electronics' | 'Defense';
-  description: string;
-  role: string;
-  specs: PartSpec[];
-  /** Optional camera target in world units; the scene fills this in if missing. */
-  focus?: [number, number, number];
-  diagram?: string;
-};
-
-export const PARTS: Part[] = [
+export const T72_PARTS: Part[] = [
   {
     id: 'hull',
     index: 0,
@@ -260,15 +227,7 @@ export const PARTS: Part[] = [
   },
 ];
 
-export const PART_BY_ID: Record<PartId, Part> = PARTS.reduce(
-  (acc, p) => {
-    acc[p.id] = p;
-    return acc;
-  },
-  {} as Record<PartId, Part>,
-);
-
-export const CATEGORY_COLORS: Record<Part['category'], string> = {
+export const T72_CATEGORY_COLORS: Record<string, string> = {
   Armor: '#7be3ff',
   Armament: '#ff8a6b',
   Mobility: '#ffd66b',

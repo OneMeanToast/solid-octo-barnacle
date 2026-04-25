@@ -1,17 +1,18 @@
 'use client';
 
 import { useExplorer } from '@/lib/store';
-import { CATEGORY_COLORS, PART_BY_ID, type PartId } from '@/lib/parts';
+import { useActiveVehicle } from '@/lib/vehicles';
 import { PartDiagram } from './PartDiagram';
 
 export function DetailPanel() {
+  const vehicle = useActiveVehicle();
   const selectedPart = useExplorer((s) => s.selectedPart);
   const setSelectedPart = useExplorer((s) => s.setSelectedPart);
 
   if (!selectedPart) return null;
-  const part = PART_BY_ID[selectedPart as PartId];
+  const part = vehicle.parts.find((p) => p.id === selectedPart);
   if (!part) return null;
-  const color = CATEGORY_COLORS[part.category];
+  const color = vehicle.categoryColors[part.category] ?? '#7be3ff';
 
   return (
     <aside className="absolute right-4 top-20 bottom-32 z-20 w-[360px] panel rounded-md flex flex-col overflow-hidden">
@@ -86,7 +87,8 @@ export function DetailPanel() {
 
         {/* Index footer */}
         <div className="text-[10px] font-mono uppercase tracking-widest text-slate-500 pt-2">
-          Subsystem {String(part.index + 1).padStart(2, '0')} / 14
+          Subsystem {String(part.index + 1).padStart(2, '0')} /{' '}
+          {String(vehicle.parts.length).padStart(2, '0')}
         </div>
       </div>
     </aside>

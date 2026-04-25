@@ -5,10 +5,9 @@ import * as THREE from 'three';
 import { ThreeEvent } from '@react-three/fiber';
 import { useExplorer } from '@/lib/store';
 import { PALETTE } from '@/lib/theme';
-import type { PartId } from '@/lib/parts';
 
 type Props = {
-  id: PartId;
+  id: string;
   children: React.ReactNode;
   position?: [number, number, number];
   rotation?: [number, number, number];

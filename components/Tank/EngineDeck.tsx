@@ -6,7 +6,7 @@ import { useFrame } from '@react-three/fiber';
 import { PartGroup } from './PartGroup';
 import { useTankMaterials } from './materials';
 import { useExplorer } from '@/lib/store';
-import { inPhase, localPhaseProgress, phaseAt } from '@/lib/timeline';
+import { inPhase, localPhaseProgress, phaseAt } from '@/vehicles/t72/timeline';
 
 /** Engine deck with louvers, exhaust grille and rear extension. */
 export function EngineDeck() {

@@ -4,7 +4,7 @@ import { useEffect, useMemo, useRef } from 'react';
 import * as THREE from 'three';
 import { useFrame } from '@react-three/fiber';
 import { useExplorer } from '@/lib/store';
-import { inPhase, localPhaseProgress, phaseAt } from '@/lib/timeline';
+import { inPhase, localPhaseProgress, phaseAt } from '@/vehicles/t72/timeline';
 
 /** Muzzle flash + lingering smoke at the tip of the gun barrel. */
 export function MuzzleFlash({ position }: { position: [number, number, number] }) {

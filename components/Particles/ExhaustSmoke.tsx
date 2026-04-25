@@ -4,7 +4,7 @@ import { useMemo, useRef } from 'react';
 import * as THREE from 'three';
 import { useFrame } from '@react-three/fiber';
 import { useExplorer } from '@/lib/store';
-import { inPhase, localPhaseProgress, phaseAt } from '@/lib/timeline';
+import { inPhase, localPhaseProgress, phaseAt } from '@/vehicles/t72/timeline';
 import { PALETTE } from '@/lib/theme';
 
 const COUNT = 90;

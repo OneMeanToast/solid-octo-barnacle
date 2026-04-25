@@ -1,34 +1,45 @@
 'use client';
 
-import { useState } from 'react';
+import { useMemo, useState, useEffect } from 'react';
 import { useExplorer } from '@/lib/store';
-import { PARTS, CATEGORY_COLORS, type Part } from '@/lib/parts';
-
-const CATS = ['All', 'Armor', 'Armament', 'Mobility', 'Crew', 'Electronics', 'Defense'] as const;
+import { useActiveVehicle } from '@/lib/vehicles';
+import type { Part } from '@/lib/types';
 
 export function Sidebar() {
-  const [filter, setFilter] = useState<(typeof CATS)[number]>('All');
+  const vehicle = useActiveVehicle();
   const selectedPart = useExplorer((s) => s.selectedPart);
   const setSelectedPart = useExplorer((s) => s.setSelectedPart);
   const setHovered = useExplorer((s) => s.setHoveredPart);
 
-  const visible = filter === 'All' ? PARTS : PARTS.filter((p) => p.category === filter);
+  // Categories are derived from the active vehicle's parts.
+  const cats = useMemo(() => {
+    const set = new Set<string>();
+    vehicle.parts.forEach((p) => set.add(p.category));
+    return ['All', ...Array.from(set)];
+  }, [vehicle]);
+
+  const [filter, setFilter] = useState<string>('All');
+  // Reset the category filter when the vehicle changes (categories differ).
+  useEffect(() => {
+    setFilter('All');
+  }, [vehicle.id]);
+
+  const visible =
+    filter === 'All' ? vehicle.parts : vehicle.parts.filter((p) => p.category === filter);
 
   return (
     <aside className="absolute left-4 top-20 bottom-32 z-20 w-[280px] flex flex-col panel rounded-md overflow-hidden">
-      {/* Header */}
       <div className="px-3.5 pt-3 pb-2 border-b border-bg-border">
         <div className="text-[10px] font-mono uppercase tracking-[0.25em] text-slate-500">
           Components
         </div>
         <div className="text-sm font-semibold text-slate-100 tracking-wide mt-0.5">
-          14 Major Subsystems
+          {vehicle.parts.length} Major Subsystems
         </div>
       </div>
 
-      {/* Category tabs */}
       <div className="px-2 pt-2 pb-1 flex flex-wrap gap-1 border-b border-bg-border bg-black/20">
-        {CATS.map((c) => (
+        {cats.map((c) => (
           <button
             key={c}
             onClick={() => setFilter(c)}
@@ -43,12 +54,12 @@ export function Sidebar() {
         ))}
       </div>
 
-      {/* Part list */}
       <ul className="overflow-y-auto scroll-thin flex-1 py-1">
         {visible.map((p) => (
           <PartRow
             key={p.id}
             part={p}
+            color={vehicle.categoryColors[p.category] ?? '#7be3ff'}
             active={selectedPart === p.id}
             onClick={() => setSelectedPart(p.id)}
             onHover={(v) => setHovered(v ? p.id : null, null)}
@@ -56,7 +67,6 @@ export function Sidebar() {
         ))}
       </ul>
 
-      {/* Footer hint */}
       <div className="px-3 py-2 border-t border-bg-border text-[10px] font-mono text-slate-500 leading-snug">
         Click a part to fly the camera.
         <br />
@@ -69,16 +79,17 @@ export function Sidebar() {
 
 function PartRow({
   part,
+  color,
   active,
   onClick,
   onHover,
 }: {
   part: Part;
+  color: string;
   active: boolean;
   onClick: () => void;
   onHover: (v: boolean) => void;
 }) {
-  const color = CATEGORY_COLORS[part.category];
   return (
     <li>
       <button

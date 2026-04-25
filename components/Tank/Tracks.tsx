@@ -6,7 +6,7 @@ import { useFrame } from '@react-three/fiber';
 import { PartGroup } from './PartGroup';
 import { useTankMaterials } from './materials';
 import { useExplorer } from '@/lib/store';
-import { inPhase, localPhaseProgress, phaseAt } from '@/lib/timeline';
+import { inPhase, localPhaseProgress, phaseAt } from '@/vehicles/t72/timeline';
 
 const ROAD_WHEEL_X = [-2.0, -1.2, -0.4, 0.4, 1.2, 2.0];
 const RETURN_X = [-1.4, 0.0, 1.4];

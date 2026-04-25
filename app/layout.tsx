@@ -2,11 +2,11 @@ import type { Metadata, Viewport } from 'next';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'T-72 Tank Explorer',
+  title: 'Vehicle Explorer · T-72 / Su-57',
   description:
-    'An interactive 3D exploration of the T-72 main battle tank. Inspired by the Artemis II Mission Explorer, built with React Three Fiber.',
-  applicationName: 'T-72 Tank Explorer',
-  keywords: ['T-72', '3D', 'react-three-fiber', 'museum', 'explorer'],
+    'An interactive 3D vehicle explorer (T-72 main battle tank, Su-57 fighter). Inspired by the Artemis II Mission Explorer, built with React Three Fiber.',
+  applicationName: 'Vehicle Explorer',
+  keywords: ['T-72', 'Su-57', '3D', 'react-three-fiber', 'museum', 'explorer'],
 };
 
 export const viewport: Viewport = {

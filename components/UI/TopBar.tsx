@@ -2,6 +2,7 @@
 
 import { useEffect } from 'react';
 import { useExplorer, type Theme } from '@/lib/store';
+import { useActiveVehicle, VEHICLE_LIST } from '@/lib/vehicles';
 
 const THEMES: { id: Theme; label: string; hint: string }[] = [
   { id: 'blueprint', label: 'BLUEPRINT', hint: 'Schematic / wireframe' },
@@ -10,6 +11,9 @@ const THEMES: { id: Theme; label: string; hint: string }[] = [
 ];
 
 export function TopBar() {
+  const vehicle = useActiveVehicle();
+  const setVehicle = useExplorer((s) => s.setVehicle);
+
   const theme = useExplorer((s) => s.theme);
   const setTheme = useExplorer((s) => s.setTheme);
   const resetCamera = useExplorer((s) => s.resetCamera);
@@ -43,16 +47,38 @@ export function TopBar() {
           <div className="w-2 h-2 rounded-full bg-accent shadow-glow pulse-soft" />
           <div className="font-mono leading-tight">
             <div className="text-[10px] uppercase tracking-[0.25em] text-slate-400">
-              Tank Explorer
+              Vehicle Explorer
             </div>
             <div className="text-sm font-semibold text-slate-100 tracking-wide">
-              T-72 <span className="text-accent">·</span>{' '}
-              <span className="text-slate-300">Main Battle Tank</span>
+              {vehicle.name} <span className="text-accent">·</span>{' '}
+              <span className="text-slate-300">{vehicle.subtitle}</span>
             </div>
           </div>
         </div>
-        <div className="hidden md:block panel px-2.5 py-1.5 font-mono text-[10px] uppercase tracking-widest text-slate-400">
-          Soviet / Russian · 1973 →
+
+        {/* Vehicle switcher */}
+        <div className="panel p-1 flex items-center gap-1 pointer-events-auto">
+          {VEHICLE_LIST.map((v) => {
+            const active = vehicle.id === v.id;
+            return (
+              <button
+                key={v.id}
+                onClick={() => setVehicle(v.id)}
+                title={v.subtitle}
+                className={`px-2.5 py-1.5 rounded text-[10px] font-mono uppercase tracking-widest transition-colors ${
+                  active
+                    ? 'bg-accent/15 text-accent shadow-glow'
+                    : 'text-slate-400 hover:text-slate-100 hover:bg-white/5'
+                }`}
+              >
+                {v.name}
+              </button>
+            );
+          })}
+        </div>
+
+        <div className="hidden xl:block panel px-2.5 py-1.5 font-mono text-[10px] uppercase tracking-widest text-slate-400">
+          {vehicle.era}
         </div>
       </div>
 

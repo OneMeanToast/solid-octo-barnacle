@@ -2,11 +2,13 @@
 
 import { useEffect, useMemo } from 'react';
 import { useExplorer, type Speed } from '@/lib/store';
-import { PHASES, phaseAt } from '@/lib/timeline';
+import { useActiveVehicle } from '@/lib/vehicles';
+import { phaseAt } from '@/lib/types';
 
 const SPEEDS: Speed[] = [1, 2, 3, 5];
 
 export function Timeline() {
+  const vehicle = useActiveVehicle();
   const progress = useExplorer((s) => s.progress);
   const playing = useExplorer((s) => s.playing);
   const speed = useExplorer((s) => s.speed);
@@ -15,7 +17,10 @@ export function Timeline() {
   const setPlaying = useExplorer((s) => s.setPlaying);
   const setSpeed = useExplorer((s) => s.setSpeed);
 
-  const phase = useMemo(() => phaseAt(progress), [progress]);
+  const phase = useMemo(
+    () => phaseAt(progress, vehicle.phases),
+    [progress, vehicle.phases],
+  );
 
   // Spacebar shortcut for play/pause; arrows for scrub
   useEffect(() => {
@@ -112,7 +117,7 @@ export function Timeline() {
         {/* Phase strip */}
         <div className="relative h-7 mb-1">
           <div className="absolute inset-0 flex rounded overflow-hidden border border-bg-border">
-            {PHASES.map((p) => {
+            {vehicle.phases.map((p) => {
               const w = (p.end - p.start) * 100;
               const inThis = progress >= p.start && progress <= p.end;
               return (

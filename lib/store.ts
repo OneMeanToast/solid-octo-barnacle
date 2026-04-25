@@ -1,11 +1,15 @@
 'use client';
 
 import { create } from 'zustand';
+import type { VehicleId } from './types';
 
 export type Theme = 'blueprint' | 'realistic' | 'cinematic';
 export type Speed = 1 | 2 | 3 | 5;
 
 export type StoreState = {
+  // active vehicle
+  vehicleId: VehicleId;
+
   // selection / hover
   selectedPart: string | null;
   hoveredPart: string | null;
@@ -15,7 +19,7 @@ export type StoreState = {
   theme: Theme;
 
   // timeline
-  progress: number; // 0..1
+  progress: number;
   playing: boolean;
   speed: Speed;
 
@@ -32,6 +36,8 @@ export type StoreState = {
   isFullscreen: boolean;
 
   // setters
+  setVehicle: (id: VehicleId) => void;
+
   setSelectedPart: (id: string | null) => void;
   setHoveredPart: (id: string | null, pos?: [number, number, number] | null) => void;
   setTheme: (t: Theme) => void;
@@ -51,6 +57,8 @@ export type StoreState = {
 };
 
 export const useExplorer = create<StoreState>((set, get) => ({
+  vehicleId: 't72',
+
   selectedPart: null,
   hoveredPart: null,
   hoverPos: null,
@@ -69,6 +77,21 @@ export const useExplorer = create<StoreState>((set, get) => ({
   aboutOpen: false,
   hudVisible: true,
   isFullscreen: false,
+
+  setVehicle: (id) => {
+    if (get().vehicleId === id) return;
+    set({
+      vehicleId: id,
+      // Reset selection + timeline when switching vehicles so the new
+      // vehicle's part IDs and phases start fresh.
+      selectedPart: null,
+      hoveredPart: null,
+      hoverPos: null,
+      progress: 0,
+      playing: false,
+      cameraResetToken: get().cameraResetToken + 1,
+    });
+  },
 
   setSelectedPart: (id) => set({ selectedPart: id }),
   setHoveredPart: (id, pos = null) => set({ hoveredPart: id, hoverPos: pos }),

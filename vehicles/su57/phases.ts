@@ -1,0 +1,58 @@
+import type { Phase } from '@/lib/types';
+
+export const SU57_PHASES: Phase[] = [
+  {
+    id: 'idle',
+    name: 'Cold',
+    start: 0.0,
+    end: 0.1,
+    description: 'Aircraft chocked, canopy closed, systems off.',
+    highlights: ['airframe', 'canopy'],
+    color: '#7be3ff',
+  },
+  {
+    id: 'startup',
+    name: 'Start-up',
+    start: 0.1,
+    end: 0.25,
+    description: 'APU online. AL-41F1 engines spool up. IRST and radar power.',
+    highlights: ['engines', 'radar', 'irst', 'ew'],
+    color: '#ffb86b',
+  },
+  {
+    id: 'taxi',
+    name: 'Taxi',
+    start: 0.25,
+    end: 0.4,
+    description: 'Slow ground roll on tricycle gear toward the runway.',
+    highlights: ['gear', 'engines'],
+    color: '#ffd66b',
+  },
+  {
+    id: 'takeoff',
+    name: 'Takeoff',
+    start: 0.4,
+    end: 0.6,
+    description: 'Rotation, gear retraction, climb-out with afterburner.',
+    highlights: ['nozzles', 'engines', 'gear', 'wings'],
+    color: '#a4ff8a',
+  },
+  {
+    id: 'engage',
+    name: 'Engage',
+    start: 0.6,
+    end: 0.85,
+    description: 'Bays open. R-77M from main bay; R-74M2 from cheek bay.',
+    highlights: ['main-bay', 'side-bays', 'radar', 'irst'],
+    color: '#ff6b6b',
+  },
+  {
+    id: 'rtb',
+    name: 'Return',
+    start: 0.85,
+    end: 1.0,
+    description: 'Bays closed. Throttled back. Gear extends for landing.',
+    highlights: ['gear', 'tail'],
+    color: '#c08bff',
+  },
+];

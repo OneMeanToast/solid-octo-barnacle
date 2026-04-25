@@ -6,7 +6,7 @@ import { useFrame } from '@react-three/fiber';
 import { PartGroup } from './PartGroup';
 import { useTankMaterials } from './materials';
 import { useExplorer } from '@/lib/store';
-import { inPhase } from '@/lib/timeline';
+import { inPhase } from '@/vehicles/t72/timeline';
 
 /** A small abstract "fire control" pylon on the turret roof — laser warning + crosswind sensor styling. */
 export function FireControl() {

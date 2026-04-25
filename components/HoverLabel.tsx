@@ -2,16 +2,17 @@
 
 import { Html } from '@react-three/drei';
 import { useExplorer } from '@/lib/store';
-import { PART_BY_ID } from '@/lib/parts';
+import { useActiveVehicle } from '@/lib/vehicles';
 
 /** Floating tooltip that follows the hovered part in screen-space. */
 export function HoverLabel() {
+  const vehicle = useActiveVehicle();
   const hoveredPart = useExplorer((s) => s.hoveredPart);
   const hoverPos = useExplorer((s) => s.hoverPos);
   const selectedPart = useExplorer((s) => s.selectedPart);
 
   if (!hoveredPart || !hoverPos || hoveredPart === selectedPart) return null;
-  const part = PART_BY_ID[hoveredPart as keyof typeof PART_BY_ID];
+  const part = vehicle.parts.find((p) => p.id === hoveredPart);
   if (!part) return null;
 
   return (

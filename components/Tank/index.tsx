@@ -20,7 +20,7 @@ import { AmmoStorage } from './AmmoStorage';
 import { FireControl } from './FireControl';
 
 import { useExplorer } from '@/lib/store';
-import { inPhase, localPhaseProgress, phaseAt } from '@/lib/timeline';
+import { inPhase, localPhaseProgress, phaseAt } from '@/vehicles/t72/timeline';
 import { ExhaustSmoke } from '@/components/Particles/ExhaustSmoke';
 import { TrackDust } from '@/components/Particles/TrackDust';
 import { MuzzleFlash } from '@/components/Particles/MuzzleFlash';

@@ -6,7 +6,7 @@ import { useFrame } from '@react-three/fiber';
 import { PartGroup } from './PartGroup';
 import { useTankMaterials } from './materials';
 import { useExplorer } from '@/lib/store';
-import { inPhase, localPhaseProgress, phaseAt } from '@/lib/timeline';
+import { inPhase, localPhaseProgress, phaseAt } from '@/vehicles/t72/timeline';
 
 /** Kontakt-5 reactive armor blocks. Instanced for performance. Slightly explodes during Maintenance. */
 export function ERA() {

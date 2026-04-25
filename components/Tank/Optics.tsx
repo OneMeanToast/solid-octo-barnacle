@@ -6,7 +6,7 @@ import { useFrame } from '@react-three/fiber';
 import { PartGroup } from './PartGroup';
 import { useTankMaterials } from './materials';
 import { useExplorer } from '@/lib/store';
-import { inPhase } from '@/lib/timeline';
+import { inPhase } from '@/vehicles/t72/timeline';
 
 /** Gunner's day sight block (TPD-K1 / 1A40) on the turret roof. Lens has a soft cyan glow. */
 export function Optics() {

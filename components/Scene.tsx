@@ -3,13 +3,12 @@
 import { Canvas } from '@react-three/fiber';
 import { Suspense, useEffect } from 'react';
 import * as THREE from 'three';
-import { Tank } from './Tank';
 import { ThemeEnvironment } from './Environment/ThemeEnvironment';
 import { PostFX } from './Environment/PostFX';
 import { CameraRig } from './CameraRig';
 import { HoverLabel } from './HoverLabel';
 import { useExplorer } from '@/lib/store';
-import { PHASES } from '@/lib/timeline';
+import { useActiveVehicle } from '@/lib/vehicles';
 
 /** Drives the global timeline progress while playing. */
 function TimelineDriver() {
@@ -21,7 +20,7 @@ function TimelineDriver() {
       last = t;
       const { playing, speed, progress, setProgress, setPlaying } = useExplorer.getState();
       if (playing) {
-        const next = progress + dt * 0.06 * speed; // base = 1/16s of the timeline per second at 1x
+        const next = progress + dt * 0.06 * speed;
         if (next >= 1) {
           setProgress(1);
           setPlaying(false);
@@ -35,6 +34,14 @@ function TimelineDriver() {
     return () => cancelAnimationFrame(raf);
   }, []);
   return null;
+}
+
+/** Renders the active vehicle's Model. Re-mounts on vehicle switch. */
+function ActiveVehicleModel() {
+  const vehicle = useActiveVehicle();
+  const { Model } = vehicle;
+  // key on vehicle.id so refs / animation state reset cleanly across switches
+  return <Model key={vehicle.id} />;
 }
 
 export function Scene() {
@@ -52,18 +59,12 @@ export function Scene() {
     >
       <Suspense fallback={null}>
         <ThemeEnvironment />
-        <Tank />
+        <ActiveVehicleModel />
         <HoverLabel />
         <CameraRig />
         <PostFX />
       </Suspense>
       <TimelineDriver />
-      {/* Pre-warm phases (touch length so tree-shaker keeps it) */}
-      <group visible={false}>
-        <mesh>
-          <boxGeometry args={[0, 0, PHASES.length]} />
-        </mesh>
-      </group>
     </Canvas>
   );
 }
